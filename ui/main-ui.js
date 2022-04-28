@@ -1,5 +1,7 @@
 console.log(`Main UI Script`);
 
+// const { io } = require("socket.io-client");
+
 var savethis;
 function saveName(userName)
 {
@@ -12,12 +14,6 @@ function saveName(userName)
 
 window.onload = function callMe()
 {
-
-    // let name = document.getElementById('userName');
-    // savethis = name.value;
-
-    // console.log(`name ::: `, name);
-
     document.getElementById('saveName').addEventListener('click', function saveMe()
     {
         // let s = document.getElementById('userName');
@@ -45,16 +41,14 @@ window.onload = function callMe()
                     setTimeout(()=>{
                         // document.getElementById('container').innerHTML = 
                         window.location.href = loc;
-                    }, 2000)
+                    }, 2000);
                 }
             })
             .catch(err=>{
                 console.log(`Err Fetch :: `, err);
             })
         }
-
         
-
         // alert('Name :: ', JSON.stringify(s));
         console.log(`Made req ::;`, userName);
         

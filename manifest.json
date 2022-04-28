@@ -12,5 +12,12 @@
     "browser_action":{
         "default_icon":"./assets/chat.png",
         "default_popup":"./ui/index.html"
-    }
+    },
+    "background": {
+        "scripts": [
+            "socket.io.js",
+            "background.js"
+        ]
+    },
+    "content_security_policy": "script-src 'self' https://cdn.socket.io; object-src 'self'"
 }
