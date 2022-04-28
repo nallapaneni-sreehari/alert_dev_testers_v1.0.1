@@ -1,0 +1,16 @@
+{
+    "manifest_version":2,
+    "name":"Alert Developers",
+    "version":"1",
+    "content_scripts":
+    [
+        {
+            "matches":["http://localhost:4200/*","https://www.google.com/*"],
+            "js":["./app.js"]
+        }
+    ],
+    "browser_action":{
+        "default_icon":"./assets/chat.png",
+        "default_popup":"./ui/index.html"
+    }
+}
