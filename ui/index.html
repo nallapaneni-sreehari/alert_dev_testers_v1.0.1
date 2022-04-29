@@ -26,16 +26,35 @@
         <!-- <form action="http://localhost:2001/saveName" method="POST"> -->
             <div class="row mt-3">
                 <div class="col-md-4">
-                    <div class="input-group w-35">
-                        <span class="input-group-text">Your Name</span>
-    
-                        <input id="userName" type="text" aria-label="Your name" name="userName" class="form-control" style="width: 20%;" required>
-    
-                        <button id="saveName" type="submit" class="btn btn-primary" style="margin-left: 5px;">Enter</button>
-                    </div>
+                    <form>
+                        <div class="input-group w-35">
+                            <span class="input-group-text">Your Name</span>
+        
+                            <input id="userName" type="text" aria-label="Your name" name="userName" class="form-control" style="width: 20%;" required>
+        
+                            <!-- <button id="saveName" type="submit" name="submit" value="Submit" class="btn btn-primary" style="margin-left: 5px;">Enter</button> -->
+                        </div>
+                        <br>
+                    <!-- </form>
                 </div>
-                <img src="../assets/dev.png" alt="image" class="img-fluid">
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <form> -->
+                            <div class="input-group">
+                                <input type="text" name="joinRoom" id="joinRoom" class="form-control" placeholder="Enter room number" required maxlength="10">
+                                <button id="joinRoom" type="submit" class="btn btn-success" style="margin-left: 5px;">Join</button>
+                                <button id="createRoom" type="submit" class="btn btn-success" style="margin-left: 5px;">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- <p>OR</p> -->
+                    <!-- <div class="col-4">
+                        <button id="createRoom" type="button" class="btn btn-success text-center" style="margin-left: 15px; font-size: 15px;">Create New Room</button>
+                    </div> -->
+                </div>
             </div>
+            <br>
+            <img src="../assets/dev.png" alt="image" class="img-fluid">
         <!-- </form> -->
 
     </div>

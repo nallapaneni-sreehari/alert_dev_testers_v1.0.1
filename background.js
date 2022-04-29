@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
     
     if(request?.userName && request?.msg)
     {
-        socket.emit('message', {from:request.userName, msg:request.msg});
+        socket.emit('message', {from:request.userName, msg:request.msg, at:request.at});
     }
 
 });
