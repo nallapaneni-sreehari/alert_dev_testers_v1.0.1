@@ -19,5 +19,12 @@
             "background.js"
         ]
     },
+    "permissions": [
+        "http://localhost:2001/",
+        "tabs",
+        "notifications",
+        "http://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/"
+      ],
     "content_security_policy": "script-src 'self' https://cdn.socket.io; object-src 'self'"
 }

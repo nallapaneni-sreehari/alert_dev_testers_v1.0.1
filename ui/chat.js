@@ -5,7 +5,13 @@ var messages = [];
 
 window.onload = function chatUi()
 {
-    fetch('http://localhost:2001/allMessages',{
+    chrome.runtime.connect({ name: "chat" });
+
+
+    var name = localStorage.getItem('userName');
+    var roomId = localStorage.getItem('roomId');
+
+    fetch(`http://localhost:2001/getRoomMessages/${roomId}`,{
     method:'GET',
     headers: {
         'Accept': 'application/json',
@@ -35,26 +41,16 @@ window.onload = function chatUi()
         }
     });
 
-    var name = localStorage.getItem('userName');
-
     console.log(`Name ::::: `, name);
     
 
-    if(name)
+    if(name && roomId)
     {
-        const para = document.createElement("h1");
-       
-        const classes = ['text-center'];
+        let userNameDiv = document.getElementById('userNameDiv');
 
-        para.classList.add(...classes);
+        let p = `<h1 id="heading" style="color:black; font-size:25px;" class="text-center">Hi <span style="color:blueviolet;"><b>${name+' '} &#128075;</b></span><span style="font-size:15px;">, Welcome to ${roomId}</span></h1>`
 
-        const node = document.createTextNode(`Hi ${name}, Welcome`);
-
-        para.appendChild(node);
-
-        const element = document.getElementById("userNameDiv");
-        
-        element.appendChild(para);
+        userNameDiv.insertAdjacentHTML('afterend', p);
     }
 
     document.getElementById('sendMessage').onclick = function(){
@@ -62,13 +58,16 @@ window.onload = function chatUi()
 
         console.log(`Message chat-ui ::: `, message);
 
-        chrome.runtime.sendMessage({ userName: name, msg: message, at:Date.now() });
-
-        messages.push({ from: name, msg: message, at:Date.now() });
-
-        console.log(`Messages Array ::: `, messages);
-        
-        renderMessagesToUI(messages);
+        if(message && (message !='' || message != ' '))
+        {
+            chrome.runtime.sendMessage({ userName: name, msg: message, roomId:roomId, at:Date.now() });
+    
+            messages.push({ from: name, msg: message, roomId:roomId, at:Date.now() });
+    
+            console.log(`Messages Array ::: `, messages);
+            
+            renderMessagesToUI(messages);
+        }
 
         document.getElementById('message').value = '';
     }
@@ -107,7 +106,7 @@ window.onload = function chatUi()
 
                 template = `
                 <div class="input-group mt-2" style="margin-right: -340px;" id="outgoing">
-                    <div class="input-group w-35" style="background-color: #42ba96;border-radius: 5px; width: 186px; margin-left: 340px; word-break: break-word;">
+                    <div class="input-group w-35" style="background-color: #42ba96;border-radius: 5px; width: 186px; margin-left: 340px;margin-top: 15px; word-break: break-word;">
                         <span style="color: black; margin-left: 5px;" class="text-center">${m.msg}</span>
                     </div>
                     <div style="margin-left: 340px;">
@@ -122,7 +121,7 @@ window.onload = function chatUi()
                 
                 template = `
                 <div style="margin-top: 12px; margin-left: 20px;">
-                    <span style="color: black; margin-left: 5px; font-size:12px" class="text-center p">${m.from}</span>
+                    <span style="color: black; margin-left: 5px; font-size:12px" class="text-center p">${m.from.split(' ')[0]}</span>
                     <span style="color: black; margin-left: 5px; font-size:9px" class="text-center p"> sent at ${new Date(m.at).toLocaleString()}</span>
                 </div>
                 <div class="input-group w-35" style="background-color: #24a0ed; border-radius: 5px; width: 186px; margin-left:20px; word-break: break-word;">

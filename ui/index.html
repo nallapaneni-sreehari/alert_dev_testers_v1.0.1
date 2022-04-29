@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
+
     <title>Chat with other Devs</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -18,19 +23,26 @@
 
     <script src="https://cdn.socket.io/4.3.2/socket.io.esm.min.js"></script>
 
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif
+        };
+    </style>
+
 </head>
 <body style="width: 550px; height: 450px;">
     <div class="container" id="container">
         <h3 class="text-center mt-2">Chat App For Testers</h3>
 
         <!-- <form action="http://localhost:2001/saveName" method="POST"> -->
-            <div class="row mt-3">
+            <div class="row mt-3" id="mainRow">
                 <div class="col-md-4">
-                    <form>
-                        <div class="input-group w-35">
+                    <form id="myForm">
+                        <div class="input-group w-35" id="nameDiv">
                             <span class="input-group-text">Your Name</span>
         
-                            <input id="userName" type="text" aria-label="Your name" name="userName" class="form-control" style="width: 20%;" required>
+                            <input id="userName" type="text" aria-label="Your name" name="userName" 
+                            class="form-control" style="width: 20%;" placeholder="Enter your name (will appear in chat)" required>
         
                             <!-- <button id="saveName" type="submit" name="submit" value="Submit" class="btn btn-primary" style="margin-left: 5px;">Enter</button> -->
                         </div>
@@ -41,9 +53,11 @@
                     <div class="col-12">
                         <form> -->
                             <div class="input-group">
-                                <input type="text" name="joinRoom" id="joinRoom" class="form-control" placeholder="Enter room number" required maxlength="10">
-                                <button id="joinRoom" type="submit" class="btn btn-success" style="margin-left: 5px;">Join</button>
-                                <button id="createRoom" type="submit" class="btn btn-success" style="margin-left: 5px;">Create</button>
+                                <input type="text" name="roomId" id="roomId" class="form-control" placeholder="Enter room name" 
+                                required>
+
+                                <button id="joinRoom" type="button" class="btn btn-success" style="margin-left: 5px;">Join</button>
+                                <button id="createRoom" type="button" class="btn btn-success" style="margin-left: 5px;">Create</button>
                             </div>
                         </form>
                     </div>
