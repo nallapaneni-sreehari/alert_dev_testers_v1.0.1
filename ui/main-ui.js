@@ -4,7 +4,14 @@ console.log(`Main UI Script`);
 
 var savethis;
 
-window.onload = function callMe()
+const LS = {
+    getAllItems: () => chrome.storage.local.get(),
+    getItem: async key => (await chrome.storage.local.get(key))[key],
+    setItem: (key, val) => chrome.storage.local.set({[key]: val}),
+    removeItems: keys => chrome.storage.local.remove(keys),
+};
+
+window.onload = async function callMe()
 {
     chrome.runtime.connect({ name: "main" });
 
@@ -20,7 +27,7 @@ window.onload = function callMe()
         
     });
 
-    var userName = localStorage.getItem('userName');
+    var userName = await LS.getItem('userName');
 
     console.log(`userName ::: `, userName);
     
@@ -31,8 +38,6 @@ window.onload = function callMe()
     }
     else
     {
-        console.log(`In else`);
-
         document.getElementById('joinRoom').addEventListener('click', function saveMe()
         {
             // let s = document.getElementById('userName');
@@ -60,12 +65,12 @@ window.onload = function callMe()
                     }).then(data=>{
                         return data.json();
                     })
-                    .then(result=>{
+                    .then(async (result)=>{
                         console.log(`Res Fetch :: `, result);
                         if(result.status == 'success')
                         {
-                            localStorage.setItem('userName', userName);
-                            localStorage.setItem('roomId', roomId);
+                            await LS.setItem('userName', userName);
+                            await LS.setItem('roomId', roomId);
                             
                             setTimeout(()=>{
                                 // document.getElementById('container').innerHTML = 
@@ -166,12 +171,12 @@ window.onload = function callMe()
                     }).then(data=>{
                         return data.json();
                     })
-                    .then(result=>{
+                    .then(async (result)=>{
                         console.log(`Create Room:: `, result);
                         if(result.status == 'success')
                         {
-                            localStorage.setItem('userName', userName);
-                            localStorage.setItem('roomId', roomId);
+                            await LS.setItem('userName', userName);
+                            await LS.setItem('roomId', roomId);
                             
                             setTimeout(()=>{
                                 // document.getElementById('container').innerHTML = 

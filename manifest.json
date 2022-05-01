@@ -1,30 +1,39 @@
 {
-    "manifest_version":2,
-    "name":"Alert Developers",
-    "version":"1",
-    "content_scripts":
-    [
-        {
-            "matches":["http://localhost:4200/*","https://www.google.com/*"],
-            "js":["./app.js"]
-        }
-    ],
-    "browser_action":{
-        "default_icon":"./assets/chat.png",
-        "default_popup":"./ui/index.html"
-    },
-    "background": {
-        "scripts": [
-            "socket.io.js",
-            "background.js"
-        ]
-    },
-    "permissions": [
-        "http://localhost:2001/",
-        "tabs",
-        "notifications",
-        "http://fonts.googleapis.com/",
-        "https://fonts.googleapis.com/"
+  "manifest_version": 3,
+  "name": "Alert Developers",
+  "version": "1.0.1",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost:4200/*",
+        "https://www.google.com/*"
       ],
-    "content_security_policy": "script-src 'self' https://cdn.socket.io; object-src 'self'"
+      "js": [
+        "./app.js"
+      ]
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon16.png",
+    "48": "icon16.png",
+    "128": "icon16.png"
+  },
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "permissions": [
+    "tabs",
+    "notifications",
+    "storage"
+  ],
+  "action": {
+    "default_icon": "./assets/chat.png",
+    "default_popup": "./ui/index.html"
+  },
+  "host_permissions": [
+    "http://localhost:2001/",
+    "http://fonts.googleapis.com/",
+    "https://fonts.googleapis.com/"
+  ]
 }

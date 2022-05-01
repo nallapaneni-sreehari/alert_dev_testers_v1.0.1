@@ -1,15 +1,21 @@
 console.log(`Chat ui called`);
 
 var messages = [];
+const LS = {
+    getAllItems: () => chrome.storage.local.get(),
+    getItem: async key => (await chrome.storage.local.get(key))[key],
+    setItem: (key, val) => chrome.storage.local.set({[key]: val}),
+    removeItems: keys => chrome.storage.local.remove(keys),
+};
 
 
-window.onload = function chatUi()
+window.onload = async function chatUi()
 {
     chrome.runtime.connect({ name: "chat" });
 
 
-    var name = localStorage.getItem('userName');
-    var roomId = localStorage.getItem('roomId');
+    var name = await LS.getItem('userName');
+    var roomId = await LS.getItem('roomId');
 
     fetch(`http://localhost:2001/getRoomMessages/${roomId}`,{
     method:'GET',
@@ -21,7 +27,7 @@ window.onload = function chatUi()
         // console.log(`Resss :::: `, res.json());
         return res.json()
     }).then(data=>{
-        console.log(`Data ::: `, data);
+        console.log(`getRoomMessages ::: `, data);
         messages = data.data;
         if(messages?.length > 0)
         {
@@ -32,13 +38,16 @@ window.onload = function chatUi()
     .catch(err=>{console.log("Err getting messages :: ", err)});
 
 
-    chrome.runtime.onMessage.addListener((request, sender) => {
-        console.log(`All messages ::: `, request, request.allMsgs);
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        console.log(`All messages ::: `, request, request.allMsgs, " sender :: ", sender);
         if(request && request?.allMsgs)
         {
             messages = request.allMsgs;
             renderMessagesToUI(messages);
         }
+
+        sendResponse('messages rendered to UI :::');
+        return true;
     });
 
     console.log(`Name ::::: `, name);
@@ -53,14 +62,17 @@ window.onload = function chatUi()
         userNameDiv.insertAdjacentHTML('afterend', p);
     }
 
-    document.getElementById('sendMessage').onclick = function(){
+    document.getElementById('sendMessage').onclick = async function(){
         var message = document.getElementById('message').value;
 
         console.log(`Message chat-ui ::: `, message);
 
         if(message && (message !='' || message != ' '))
         {
-            chrome.runtime.sendMessage({ userName: name, msg: message, roomId:roomId, at:Date.now() });
+            chrome.runtime.sendMessage({ userName: name, msg: message, roomId:roomId, at:Date.now() }, function(res){
+                console.log(`Msg Response ::: `, res);
+                
+            });
     
             messages.push({ from: name, msg: message, roomId:roomId, at:Date.now() });
     
