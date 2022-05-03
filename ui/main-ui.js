@@ -1,5 +1,17 @@
 console.log(`Main UI Script`);
 
+var env = 'prod';
+// var env = 'dev';
+
+if(env == 'prod')
+{
+    serverUrl = 'https://alert-developers-backend.herokuapp.com';
+}
+else if(env == 'dev')
+{
+    serverUrl = 'http://localhost:2001';
+}
+
 // const { io } = require("socket.io-client");
 
 var savethis;
@@ -55,7 +67,7 @@ window.onload = async function callMe()
                 
                 if(roomId && (roomId !='' || roomId != ' '))
                 {
-                    fetch('http://localhost:2001/joinRoom', {
+                    fetch(`${serverUrl}/joinRoom`, {
                     method:'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -161,7 +173,7 @@ window.onload = async function callMe()
                         owner:userName
                     };
 
-                    fetch('http://localhost:2001/createRoom', {
+                    fetch(`${serverUrl}/createRoom`, {
                     method:'POST',
                     headers: {
                         'Accept': 'application/json',

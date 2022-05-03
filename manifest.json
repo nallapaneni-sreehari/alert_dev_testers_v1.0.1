@@ -33,6 +33,7 @@
   },
   "host_permissions": [
     "http://localhost:2001/",
+    "https://alert-developers-backend.herokuapp.com/",
     "http://fonts.googleapis.com/",
     "https://fonts.googleapis.com/"
   ]

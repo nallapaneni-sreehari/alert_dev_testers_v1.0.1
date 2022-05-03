@@ -1,5 +1,19 @@
 console.log(`Chat ui called`);
 
+var serverUrl;
+
+var env = 'prod';
+// var env = 'dev';
+
+if(env == 'prod')
+{
+    serverUrl = 'https://alert-developers-backend.herokuapp.com';
+}
+else if(env == 'dev')
+{
+    serverUrl = 'http://localhost:2001';
+}
+
 var messages = [];
 const LS = {
     getAllItems: () => chrome.storage.local.get(),
@@ -17,7 +31,7 @@ window.onload = async function chatUi()
     var name = await LS.getItem('userName');
     var roomId = await LS.getItem('roomId');
 
-    fetch(`http://localhost:2001/getRoomMessages/${roomId}`,{
+    fetch(`${serverUrl}/getRoomMessages/${roomId}`,{
     method:'GET',
     headers: {
         'Accept': 'application/json',
